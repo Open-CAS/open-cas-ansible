@@ -1,0 +1,11 @@
+---
+- name: Validate cache devices configs
+  opencas:
+    check_cache_config: "{{ item }}"
+  loop: "{{ opencas_cache_devices }}"
+
+- name: Validate core devices configs
+  opencas:
+    check_core_config: "{{ item }}"
+  loop: "{{ opencas_cached_volumes }}"
+...

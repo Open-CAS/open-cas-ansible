@@ -1,0 +1,47 @@
+---
+- name: Get dependencies
+  block:
+    - package:
+        name: git
+        state: present
+    - package:
+        name: make
+        state: present
+  become: True
+
+- name: Check if installation may proceed
+  fail:
+    msg: |
+      "Open CAS is currently installed in version
+      {{ opencas_installed_version['CAS Cache Kernel Module'] }} and has devices
+      configured. Please change your opencas_version variable (currently: {{ opencas_version }})
+      and re-run or use teardown and rebuild the configuration."
+  when: (opencas_installed and
+          ((opencas_installed_version != opencas_version) and opencas_devices_started))
+
+- name: Clone and checkout Open CAS repository
+  git:
+    repo: "{{ opencas_repo_url }}"
+    dest: "{{ opencas_path }}"
+    version: "{{ opencas_version }}"
+  when: not opencas_installed or opencas_installed_version != opencas_version
+  become: True
+
+- name: Compile Open CAS
+  make:
+    chdir: "{{ opencas_path }}"
+  when: not opencas_installed or opencas_installed_version != opencas_version
+  become: True
+
+- name: Install Open CAS
+  make:
+    chdir: "{{ opencas_path }}"
+    target: install
+  when: not opencas_installed or opencas_installed_version != opencas_version
+  become: True
+
+- name: Update facts
+  opencas:
+    gather_facts: True
+  become: True
+...

@@ -1,0 +1,24 @@
+---
+# This is a sample configuration of Intel CAS deployment configuration
+
+# List of all cache devices configuration
+opencas_cache_devices:
+  - cache_device: /dev/nvme0n1       # path to device or partition
+    id: 1                            # id used to corelate cores with cache instances
+    cache_mode: wt                   # caching mode <wt, wb, wa, pt>
+    force: False                     # [OPTIONAL] Ignore and overwrite existing partition table
+    cleaning_policy: alru            # [OPTIONAL] cleaning policy <alru, acp, nop>
+    line_size: 4                     # [OPTIONAL] cache line size <4, 8, 16, 32, 64> [kb]
+    io_class: default.csv            # [OPTIONAL] io classification file name
+                                     # all files used here should be put in
+                                     # roles/opencas-deploy/files/
+
+# List of all cached volumes
+opencas_cached_volumes:
+    - id: 1                    # id of core device
+      cache_id: 1              # id of cache defined in open_cas_cache_devices list
+      cached_volume: /dev/sdc  # path to cached device or partition
+    - id: 2
+      cache_id: 1
+      cached_volume: /dev/sdd
+...
