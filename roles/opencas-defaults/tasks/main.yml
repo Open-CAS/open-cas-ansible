@@ -1,6 +1,6 @@
 ---
 - name: Gather Open CAS facts
-  opencas:
+  cas:
     gather_facts: True
   become: True
 ...

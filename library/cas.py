@@ -20,7 +20,7 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = """
 ---
-module: opencas
+module: cas
 
 short_description: Manage Open CAS software
 
@@ -61,7 +61,7 @@ options:
       cache_mode:
         description:
           - Caching mode for cache
-        choices: ['wt', 'wb', 'wa', 'pt']
+        choices: ['wt', 'wb', 'wa', 'pt', 'wo']
         default: wt
       cleaning_policy:
         description:
@@ -91,7 +91,7 @@ options:
       cache_mode:
         description:
           - Caching mode for cache
-        choices: ['wt', 'wb', 'wa', 'pt']
+        choices: ['wt', 'wb', 'wa', 'pt', 'wo']
         default: wt
       cleaning_policy:
         description:
@@ -141,11 +141,11 @@ options:
 
 EXAMPLES = """
 - name: Gather facts about opencas installation
-  opencas:
+  cas:
     gather_facts: True
 
 - name: Validate CAS cache configuration
-  opencas:
+  cas:
     check_cache_config:
       path: /dev/nvme0n1
       cache_id: 2
@@ -153,7 +153,7 @@ EXAMPLES = """
       line_size: 8
 
 - name: Configure and start CAS cache
-  opencas:
+  cas:
     configure_cache_device:
       path: /dev/nvme0n1
       cache_id: 2
@@ -161,18 +161,18 @@ EXAMPLES = """
       line_size: 8
 
 - name: Configure and add core device to CAS cache
-  opencas:
+  cas:
     configure_core_device:
       path: /dev/sda
       cache_id: 2
       core_id: 3
 
 - name: Remove Open CAS devices configuration
-  opencas:
+  cas:
     zap: True
 
 - name: Stop all Open CAS devices
-  opencas:
+  cas:
     stop:
       flush: True
 """
@@ -191,6 +191,7 @@ def gather_facts():
         ret["opencas_installed"] = True
     except:
         ret["opencas_installed"] = False
+        return ret
 
     try:
         config = cas_util.cas_config.from_file(
@@ -225,10 +226,7 @@ def zap():
 
 
 def stop(flush):
-    caches_list = cas_util.get_caches_list()
-
-    devices_count = len(caches_list)
-    if devices_count == 0:
+    if len(cas_util.get_caches_list()) == 0:
         return False
 
     cas_util.stop(flush)

@@ -1,11 +1,11 @@
 ---
 - name: Configure cache devices
-  opencas:
+  cas:
     configure_cache_device: "{{ item }}"
   loop: "{{ opencas_cache_devices }}"
 
 - name: Configure core devices
-  opencas:
+  cas:
     configure_core_device: "{{ item }}"
   loop: "{{ opencas_cached_volumes }}"
 ...

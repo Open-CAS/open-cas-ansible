@@ -8,5 +8,5 @@
   copy:
     src: files/
     dest: /etc/opencas/ansible
-    mode: 0777
+    mode: 0644
 ...

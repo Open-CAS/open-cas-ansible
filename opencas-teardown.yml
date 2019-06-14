@@ -1,20 +1,20 @@
 ---
-- hosts: opencas-nodes
+- hosts: opencas_nodes
   roles:
     - role: opencas-defaults
 
   tasks:
     - name: Flush and stop all Open CAS devices (this may take some time)
-      opencas:
+      cas:
         stop:
           flush: True
-      when: opencas_installed
+      when: opencas_installed | bool
       become: True
 
     - name: Remove Open CAS devices configuration
-      opencas:
+      cas:
         zap: True
-      when: opencas_installed
+      when: opencas_installed | bool
       become: True
 
     - name: Clone and checkout Open CAS repository
@@ -22,6 +22,7 @@
         repo: "{{ opencas_repo_url }}"
         dest: "{{ opencas_path }}"
         version: "{{ opencas_version }}"
+        force: True
       become: True
 
     - name: Uninstall Open CAS
@@ -32,9 +33,9 @@
       become: True
 
     - name: Check if uninstalled
-      opencas:
+      cas:
         gather_facts: True
-      failed_when: opencas_installed
+      failed_when: opencas_installed | bool
       become: True
 
     - name: Remove Open CAS directory

@@ -27,6 +27,12 @@
   when: not opencas_installed or opencas_installed_version != opencas_version
   become: True
 
+- name: Configure Open CAS
+  shell: ./configure
+  args:
+    chdir: "{{ opencas_path }}"
+  become: True
+
 - name: Compile Open CAS
   make:
     chdir: "{{ opencas_path }}"
@@ -41,7 +47,7 @@
   become: True
 
 - name: Update facts
-  opencas:
+  cas:
     gather_facts: True
   become: True
 ...

@@ -5,12 +5,12 @@
   when: (opencas_cache_devices is not defined) or (opencas_cached_volumes is not defined)
 
 - name: Validate cache devices configs
-  opencas:
+  cas:
     check_cache_config: "{{ item }}"
   loop: "{{ opencas_cache_devices }}"
 
 - name: Validate core devices configs
-  opencas:
+  cas:
     check_core_config: "{{ item }}"
   loop: "{{ opencas_cached_volumes }}"
 ...

@@ -2,12 +2,12 @@
 Collection of Ansible playbooks for setting up Open CAS accelerated devices.
 
 ## Configuration and usage
-Default playbook configuration tries to configure Open CAS on `opencas-nodes`
+Default playbook configuration tries to configure Open CAS on `opencas_nodes`
 host group from inventory.
 
 ### Configuring devices
-Example configuration is shown in `group_vars/opencas-nodes.yml.sample`.
-For default, out-of-the-box configuration you can only change the name to opencas-nodes.yml,
+Example configuration is shown in `group_vars/opencas_nodes.yml.sample`.
+For default, out-of-the-box configuration you can only change the name to opencas_nodes.yml,
 configure appropriate host groups and adjust the device names.
 
 ### Configuring IO-classes
@@ -28,12 +28,9 @@ Stops all cache instances and removes Open CAS software. Make sure that
 ### opencas-validate
 Validates the Open CAS configuration set (e.g. in `group_vars`).
 
-### opencas-common
-Makes sure that the installer is present on target host.
-
 ### opencas-defaults
 Gathers custom facts needed for further processing, also in `defaults/main.yml`
-there are some settings used by other roles.
+there are some settings used by other roles e.g. version of Open CAS to be installed.
 
 ### opencas-install
 Installs Open CAS software.
