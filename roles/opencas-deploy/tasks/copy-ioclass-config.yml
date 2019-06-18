@@ -1,0 +1,12 @@
+---
+- name: Create directory for opencas-ansible IO class configs
+  file:
+    state: directory
+    path: /etc/opencas/ansible
+
+- name: Copy io class configurations files
+  copy:
+    src: files/
+    dest: /etc/opencas/ansible
+    mode: 0644
+...

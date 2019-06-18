@@ -1,0 +1,8 @@
+---
+- hosts: opencas_nodes
+  roles:
+    - role: opencas-defaults
+    - role: opencas-install
+    - role: opencas-validate
+    - role: opencas-deploy
+...

@@ -1,0 +1,3 @@
+[submodule "tests/open-cas-linux"]
+	path = tests/open-cas-linux
+	url = https://github.com/Open-CAS/open-cas-linux.git

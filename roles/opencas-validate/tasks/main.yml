@@ -1,0 +1,16 @@
+---
+- name: Check if Open CAS configuration for host group is defined
+  fail:
+    msg: "Couldn't find configuration for Open CAS devices. Did you configure group/host_vars?"
+  when: (opencas_cache_devices is not defined) or (opencas_cached_volumes is not defined)
+
+- name: Validate cache devices configs
+  cas:
+    check_cache_config: "{{ item }}"
+  loop: "{{ opencas_cache_devices }}"
+
+- name: Validate core devices configs
+  cas:
+    check_core_config: "{{ item }}"
+  loop: "{{ opencas_cached_volumes }}"
+...
