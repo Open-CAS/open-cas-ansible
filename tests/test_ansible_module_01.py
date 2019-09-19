@@ -256,6 +256,8 @@ def test_module_stop_all_devices_stopped(
             "cleaning_policy": "acp",
         },
         {"io_class": "best_config.rar"},
+        {"io_class": "best_config.rar", "promotion_policy": "nhit"},
+        {"promotion_policy": "nhit"},
     ],
 )
 @patch("cas.setup_module_object")
@@ -271,6 +273,37 @@ def test_module_check_cache_device_missing_params(
 
     e.match("Missing")
     e.match("'failed': True")
+
+
+@patch("cas.setup_module_object")
+@patch("opencas.cas_config.cache_config")
+def test_module_check_cache_device(
+    mock_cache_config, mock_setup_module,
+):
+    mock_setup_module.return_value = setup_module_with_params(
+        check_cache_config={
+            "id": "1000",
+            "cache_device": "test_cache_device",
+            "cache_mode": "test_cache_mode",
+            "cleaning_policy": "test_cleaning_policy",
+            "promotion_policy": "test_promotion_policy",
+            "line_size": "test_cache_line_size",
+            "io_class": "test_ioclass_file",
+        }
+    )
+
+    with pytest.raises(AnsibleExitJson) as e:
+        cas.main()
+
+    mock_cache_config.assert_called_with(
+        1000,
+        "test_cache_device",
+        "test_cache_mode",
+        cache_line_size="test_cache_line_size",
+        ioclass_file="/etc/opencas/ansible/test_ioclass_file",
+        cleaning_policy="test_cleaning_policy",
+        promotion_policy="test_promotion_policy",
+    )
 
 
 @patch("opencas.cas_config.cache_config.validate_config")
