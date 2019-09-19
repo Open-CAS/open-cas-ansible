@@ -68,6 +68,11 @@ options:
           - cleaning policy to be used by cache
         choices: ['alru', 'acp', 'nop']
         default: alru
+      promotion_policy:
+        description:
+          - promotion policy to be used by cache
+        choices: ['always', 'nhit']
+        default: always
       line_size:
         description:
           - cache line size in kb
@@ -98,6 +103,11 @@ options:
           - cleaning policy to be used by cache
         choices: ['alru', 'acp', 'nop']
         default: alru
+      promotion_policy:
+        description:
+          - promotion policy to be used by cache
+        choices: ['always', 'nhit']
+        default: always
       line_size:
         description:
           - cache line size in kb
@@ -313,6 +323,10 @@ def handle_cache_config(config):
     cleaning_policy = config.get("cleaning_policy")
     if cleaning_policy:
         params["cleaning_policy"] = cleaning_policy
+
+    promotion_policy = config.get("promotion_policy")
+    if promotion_policy:
+        params["promotion_policy"] = promotion_policy
 
     force = config.get("force")
 
