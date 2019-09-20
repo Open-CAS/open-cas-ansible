@@ -8,6 +8,7 @@ opencas_cache_devices:
     cache_mode: wt                   # caching mode <wt, wb, wa, pt, wo>
     force: False                     # [OPTIONAL] Ignore and overwrite existing partition table
     cleaning_policy: alru            # [OPTIONAL] cleaning policy <alru, acp, nop>
+    promotion_policy: always         # [OPTIONAL] cleaning policy <always, nhit>
     line_size: 4                     # [OPTIONAL] cache line size <4, 8, 16, 32, 64> [kb]
     io_class: default.csv            # [OPTIONAL] io classification file name
                                      # all files used here should be put in
