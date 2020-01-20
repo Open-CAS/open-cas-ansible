@@ -1,14 +1,4 @@
 ---
-- name: Get dependencies
-  block:
-    - package:
-        name: git
-        state: present
-    - package:
-        name: make
-        state: present
-  become: True
-
 - name: Check if installation may proceed
   fail:
     msg: |
