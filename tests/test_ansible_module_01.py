@@ -4,7 +4,7 @@
 #
 
 import pytest
-from mock import patch, Mock
+from unittest.mock import patch, Mock
 import helpers as h
 
 import cas
