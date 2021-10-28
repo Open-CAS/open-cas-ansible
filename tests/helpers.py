@@ -1,6 +1,6 @@
 #
 # Copyright(c) 2012-2019 Intel Corporation
-# SPDX-License-Identifier: BSD-3-Clause-Clear
+# SPDX-License-Identifier: BSD-3-Clause
 #
 
 import unittest.mock as mock
