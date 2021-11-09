@@ -38,4 +38,3 @@ Installs Open CAS software.
 ### opencas-deploy
 Copies over the IO-class configuration files, validates configuration and deploys
 it on hosts.
-
