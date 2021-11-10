@@ -6,6 +6,8 @@
 import pytest
 from unittest.mock import patch, Mock
 import helpers as h
+from os import strerror
+from errno import ENOENT
 
 import cas
 import opencas
@@ -50,7 +52,9 @@ def setup_module_with_params(**params):
 @patch("opencas.get_cas_version")
 @patch("cas.setup_module_object")
 def test_module_get_facts_not_installed(mock_setup_module, mock_get_version):
-    mock_get_version.side_effect = opencas.casadm.CasadmError("casadm error")
+    mock_get_version.side_effect = FileNotFoundError(
+        ENOENT, strerror(ENOENT), "/sbin/casadm"
+    )
     mock_setup_module.return_value = setup_module_with_params(gather_facts=True)
 
     with pytest.raises(AnsibleExitJson) as e:
