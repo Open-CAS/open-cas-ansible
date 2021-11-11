@@ -6,6 +6,8 @@
 import pytest
 from unittest.mock import patch, Mock
 import helpers as h
+from os import strerror
+from errno import ENOENT
 
 import cas
 import opencas
@@ -50,7 +52,9 @@ def setup_module_with_params(**params):
 @patch("opencas.get_cas_version")
 @patch("cas.setup_module_object")
 def test_module_get_facts_not_installed(mock_setup_module, mock_get_version):
-    mock_get_version.side_effect = opencas.casadm.CasadmError("casadm error")
+    mock_get_version.side_effect = FileNotFoundError(
+        ENOENT, strerror(ENOENT), "/sbin/casadm"
+    )
     mock_setup_module.return_value = setup_module_with_params(gather_facts=True)
 
     with pytest.raises(AnsibleExitJson) as e:
@@ -149,7 +153,9 @@ def test_module_stop_no_devices(mock_setup_module, mock_stop, mock_get_list):
 @patch("opencas.get_caches_list")
 @patch("opencas.stop")
 @patch("cas.setup_module_object")
-def test_module_stop_list_exception(mock_setup_module, mock_stop, mock_get_list):
+def test_module_stop_list_exception(
+    mock_setup_module, mock_stop, mock_get_list
+):
     mock_setup_module.return_value = setup_module_with_params(
         stop={"flush": True}
     )
@@ -348,7 +354,9 @@ def test_modlue_configure_cache_no_config(mock_setup_module, mock_from_file):
 
 @patch("opencas.cas_config.from_file")
 @patch("cas.setup_module_object")
-def test_modlue_configure_cache_insert_failed(mock_setup_module, mock_from_file):
+def test_modlue_configure_cache_insert_failed(
+    mock_setup_module, mock_from_file
+):
     mock_setup_module.return_value = setup_module_with_params(
         configure_cache_device={
             "id": "1",
@@ -542,7 +550,9 @@ def test_modlue_configure_cache_not_configured_not_started_start_failed(
     ],
 )
 @patch("cas.setup_module_object")
-def test_module_check_core_device_missing_params(mock_setup_module, core_params):
+def test_module_check_core_device_missing_params(
+    mock_setup_module, core_params
+):
     mock_setup_module.return_value = setup_module_with_params(
         check_core_config=core_params
     )
